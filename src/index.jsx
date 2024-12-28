@@ -1,13 +1,12 @@
 import { createRoot } from 'react-dom/client';
-import { MainView } from './components/main-view/main-view';
-// Import the MainView component
-import "./index.scss"; // Import any styles (e.g., index.scss)
+import { MainView } from './components/main-view/main-view'; // Correct path to MainView component
+import './index.scss'; // Import your global styles
 
 const MyFlixApplication = () => {
-  return <MainView />; // Directly render the MainView component
+  return <MainView />;
 };
 
-const container = document.querySelector("#root");
+const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(<MyFlixApplication />);
