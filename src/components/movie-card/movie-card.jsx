@@ -1,9 +1,13 @@
-export const MovieCard = ({ movie, onMovieClick }) => {
+
+import React from "react";
+import { Link } from "react-router-dom"; // Make sure you have React Router set up
+
+export const MovieCard = ({ movie }) => {
   return (
-    <div onClick={onMovieClick}>
-      <h2>{movie.title}</h2>
-      <img src={movie.imageURL} alt={movie.title} />
+    <div className="movie-card">
+      <img src={movie.posterUrl} alt={movie.title} />
+      <h3>{movie.title}</h3>
+      <Link to={`/movie/${movie.id}`}>View Details</Link>
     </div>
   );
 };
-

@@ -1,6 +1,12 @@
 import React from "react";
+import { useParams } from "react-router-dom"; // To capture the movie ID from the URL
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams(); // Get the movieId from the URL
+  const movie = movies.find((movie) => movie.id === movieId);
+
+  if (!movie) return <p>Movie not found</p>;
+  
   return (
     <div>
       <p><strong>Movie ID:</strong> {movie._id}</p>
