@@ -1,5 +1,188 @@
-$color: steelblue;
+// Bootstrap Imports
+@use "bootstrap/scss/functions" as *;
+@use "bootstrap/scss/variables" as *;
+@use "bootstrap/scss/mixins" as *;
 
-.my-flix {
-  color: $color;
+// Custom Colors
+$primary: #a20404;
+$mutedPrimary: #731010;
+$gray: #999;
+$white: #fefefe;
+$white50: rgba(254, 254, 254, .5);
+$black: #1f1f1f;
+$black90: rgba(1, 1, 1, .9);
+$black70: rgba(1, 1, 1, .7);
+$black50: rgba(1, 1, 1, .5);
+
+// Custom Typography
+$smallText: 12px;
+$headingFont: "Passero One", sans-serif;
+$textFont: "Rubik", sans-serif;
+
+// Custom Border & Box Shadow
+$borderBlk: 2px solid $black;
+$borderRed: 2px solid $primary;
+$borderRadius: 5px;
+$borderRadiusRdn: 50px;
+
+$boxShadow: 0 4px 10px $black50;
+$boxShadowCard: 0 10px 40px 5px $black70;
+$boxShadowCardMore: 0 10px 40px 0 $black90;
+$boxShadowCardLess: 0 10px 40px -5px $black70;
+
+// Custom Spacing & Transition
+$smallSpace: 5px;
+$mediumSpace: 15px;
+$bigSpace: 25px;
+
+$transition: 0.3s ease;
+
+// Override Bootstrap's theme colors with custom colors
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $mutedPrimary,
+  "success": #198754,
+  "info": #0dcaf0,
+  "warning": #ffc107,
+  "danger": #dc3545,
+  "light": $white,
+  "dark": $black
+);
+
+// Reset and Global Styles
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $textFont;
+    background: $black90;
+    background: linear-gradient(151deg, rgba(117, 18, 18, 1) 0%, rgba(66, 15, 15, 1) 22%, rgba(26, 26, 26, 1) 100%);
+    background-position: center;
+    background-attachment: fixed;
+    color: $white;
+}
+
+// Background style for generic elements
+.bg {
+    background-color: $black70;
+    border-radius: $borderRadius;
+    box-shadow: $boxShadowCard;
+}
+
+// Paragraph & Figure Captions
+p {
+    font-size: 16px;
+    line-height: 150%;
+    color: $gray;
+}
+
+.figure-caption {
+    color: $gray;
+}
+
+// Card Styling
+.card-text {
+    font-size: 14px;
+}
+
+.card-title {
+    min-height: 60px;
+}
+
+.font-weight-bold {
+    font-weight: 700;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: $headingFont;
+    text-align: center;
+    letter-spacing: 1px;
+    color: $white;
+}
+
+/* Button Styling */
+.btn {
+    font-weight: bold;
+    padding: 8px $bigSpace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: $transition;
+    border-radius: $borderRadiusRdn;
+}
+
+.btn-primary {
+    background-color: $primary;
+    margin: $bigSpace auto;
+    display: block;
+    border: $borderRed;
+}
+
+.btn:hover, .btn:focus {
+    background-color: transparent;
+    color: $primary;
+    border: $borderRed;
+    border-radius: $borderRadius;
+}
+
+.btn:active,
+:not(.btn-check) + .btn:active,
+.btn-check:checked + .btn,
+:not(.btn-check) + .btn:active,
+.btn:first-child:active,
+.btn.show {
+    background-color: transparent;
+    color: $primary;
+    border: $borderRed;
+    border-radius: $borderRadius;
+    opacity: 0.6;
+}
+
+/* Card Hover and Active Effects */
+.movie-card {
+    box-shadow: $boxShadowCard;
+    text-align: center;
+    transition: $transition;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        box-shadow: $boxShadowCardMore;
+        background-color: $black90;
+
+        .card-title {
+            color: $primary;
+        }
+
+        img {
+            opacity: .8;
+        }
+    }
+
+    &:active {
+        box-shadow: $boxShadowCardLess;
+
+        .card-title {
+            color: $mutedPrimary;
+        }
+    }
+}
+
+/* Image Container Styling */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    padding-top: 56.25%; // Aspect ratio 16:9
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
