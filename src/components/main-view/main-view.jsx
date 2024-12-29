@@ -1,84 +1,140 @@
-import React, { useState } from "react";
-import { MovieCard } from "../movie-card";
-import { MovieView } from "./movie-view";
+import { useState, useEffect } from "react";
+
+import "./main-view.scss";
+
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+
+import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
+import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
-  const [movies] = useState([
-    {
-      _id: "675afb4e8f311542b0f04379",
-      title: "Silence of the Lambs",
-      description:
-        "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
-      director: {
-        name: "Jonathan Demme",
-        bio: "Robert Jonathan Demme was an American director, producer, and screenwriter.",
-        birth: "1944",
-        death: "2017",
-      },
-      genre: {
-        name: "Thriller",
-        description:
-          "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience.",
-      },
-      imageURL: "silenceofthelambs.png",
-      releaseYear: 1991,
-    },
-    {
-      _id: "675b07578f311542b0f0437a",
-      title: "Top Gun",
-      description: "A modern action movie about elite naval aviators.",
-      director: {
-        name: "Tony Scott",
-        bio: "Tony Scott was a British film director, producer, and screenwriter, known for his action films.",
-        birthyear: "1944-06-21",
-        deathyear: "2012-08-19",
-      },
-      genre: {
-        name: "Action",
-        description:
-          "Fast-paced movies with intense sequences of physical action.",
-      },
-      imageURL: "http://example.com/topgun.jpg",
-      releaseYear: 1986,
-    },
-    {
-      _id: "675b07578f311542b0f0437b",
-      title: "The Little Mermaid",
-      description:
-        "A Disney animated classic about a young mermaid's adventures.",
-      director: {
-        name: "Ron Clements",
-        bio: "Ron Clements is an American animator, film director, and screenwriter known for his work on Disney classics.",
-        birthyear: "1953-04-25",
-      },
-      genre: {
-        name: "Fantasy",
-        description: "Movies involving magical or supernatural elements.",
-      },
-      imageURL: "http://example.com/littlemermaid.jpg",
-      releaseYear: 1989,
-    },
-  ]);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedToken = localStorage.getItem("token");
 
-  const [selectedMovie, setSelectedMovie] = useState(null);
+    const [movies, setMovies] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [user, setUser] = useState(storedUser ? storedUser : null);
+    const [token, setToken] = useState(storedToken ? storedToken : null);
+    const [showLogin, setShowLogin] = useState(true); // Show LoginView or SignupView
 
-  return (
-    <div>
-      {/* Conditional rendering based on selectedMovie */}
-      {selectedMovie ? (
-        <MovieView 
-          movie={selectedMovie} 
-          onBackClick={() => setSelectedMovie(null)} // Clear selection to return to movie list
-        />
-      ) : (
-        movies.map((movie) => (
-          <MovieCard
-            key={movie._id}
-            movie={movie}
-            onMovieClick={() => setSelectedMovie(movie)} // Set the clicked movie as selected
-          />
-        ))
-      )}
-    </div>
-  );
+    useEffect(() => { // Fetch movies if token is available
+        if (!token) return; // Don't fetch if there is no token
+        fetch("https://dojo-db-e5c2cf5a1b56.herokuapp.com/movies", {
+            headers: {
+                Authorization: `Bearer ${token}`, // Send token for authentication
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const moviesFromApi = data.map((movie) => ({
+                    id: movie._id,
+                    title: movie.title,
+                    description: movie.description,
+                    genre: {
+                        name: movie.genre.name,
+                        description: movie.genre.description
+                    },
+                    image: {
+                        imageUrl: movie.image?.imageUrl,
+                        imageAttribution: movie.image?.imageAttribution
+                    },
+                    featured: true,
+                    director: {
+                        name: movie.director.name,
+                        bio: movie.director.bio,
+                        birthYear: movie.director.birthYear,
+                        deathYear: movie.director.deathYear,
+                    },
+                    actors: movie.actors,  // Include the actors here
+                releaseYear: movie.releaseYear,
+            }));
+                setMovies(moviesFromApi);
+            })
+            .catch((error) => alert("Error fetching movies: " + error));
+    }, [token]); // Only fetch when token changes
+
+    const handleMovieClick = (newSelectedMovie) => {
+        setSelectedMovie(newSelectedMovie); // Update the selected movie when a similar movie is clicked
+    };
+
+    const handleLogin = (user, token) => { // Login
+        setUser(user);
+        setToken(token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+    };
+
+    const handleLogout = () => { // Logout (reset)
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+    };
+
+    if (!user) {
+        return (
+            <Row className="mainView_form w-100 min-vh-100">
+                <Col className="w-100">
+                    <div className="slider-toggle-container" onClick={() => setShowLogin(!showLogin)}>
+                        <div className={`slider-circle ${showLogin ? "login" : "signup"}`} />
+                        <span className={`slider-text-left ${showLogin ? "active" : ""}`}>Log in</span>
+                        <span className={`slider-text-right ${!showLogin ? "active" : ""}`}>Sign up</span>
+                    </div>
+                </Col>
+
+                <Col className="d-flex justify-content-center align-items-start flex-grow-1 w-100 col-11 col-md-10 col-lg-8">
+                    {showLogin ? <LoginView onLoggedIn={handleLogin} /> : <SignupView />}
+                </Col>
+            </Row>
+        );
+    }
+
+    if (selectedMovie) { // Show MovieView, if a movie is selected
+        return (
+            <Row className="movieView_main">
+                <MovieView
+                    movie={selectedMovie}
+                    allMovies={movies}
+                    onBackClick={() => setSelectedMovie(null)}
+                    onMovieClick={handleMovieClick}
+                />
+            </Row>
+        );
+    }
+
+    if (movies.length === 0) { // If no movies a re available
+        return (
+            <Row className="mainView_empty">
+                <h3>The list is empty!</h3>
+            </Row>
+        );
+    }
+
+    return ( // Default view:showing all movie cards
+        <div className="movieCards_main">
+            <Row className="d-flex justify-content-end align-items-start">
+                <Col className="auto logout-col">
+                    <Button className="logout-btn" variant="primary" onClick={handleLogout}>Logout</Button>
+                </Col>
+            </Row>
+
+            <Row className="w-100 gx-4 gy-4">
+                {movies.map((movie) => (
+                    <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                        <MovieCard
+                            movie={movie}
+                            onMovieClick={() => setSelectedMovie(movie)}
+                        />
+                    </Col>
+                ))}
+            </Row>
+        </div>
+
+    );
 };
+export default MainView;
