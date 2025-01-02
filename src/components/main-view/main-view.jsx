@@ -137,4 +137,22 @@ export const MainView = () => {
 
     );
 };
+
+MainView.propTypes = {
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            genre: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired,
+            }).isRequired,
+            image: PropTypes.shape({
+                imageUrl: PropTypes.string.isRequired,
+            }).isRequired,
+        })
+    ).isRequired,
+    setSelectedMovie: PropTypes.func.isRequired,
+};
 export default MainView;
