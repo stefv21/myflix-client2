@@ -23,7 +23,7 @@ export const MainView = () => {
 
     useEffect(() => { // Fetch movies if token is available
         if (!token) return; // Don't fetch if there is no token
-        fetch("https://git.heroku.com/aqueous-mountain-08725.git", {
+        fetch("https://aqueous-mountain-08725.herokuapp.com/", {
             headers: {
                 Authorization: `Bearer ${token}`, // Send token for authentication
             },
