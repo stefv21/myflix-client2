@@ -23,7 +23,7 @@ export const MainView = () => {
 
     useEffect(() => { // Fetch movies if token is available
         if (!token) return; // Don't fetch if there is no token
-        fetch("https://dojo-db-e5c2cf5a1b56.herokuapp.com/movies", {
+        fetch("https://git.heroku.com/aqueous-mountain-08725.git", {
             headers: {
                 Authorization: `Bearer ${token}`, // Send token for authentication
             },
@@ -136,5 +136,23 @@ export const MainView = () => {
         </div>
 
     );
+};
+
+MainView.propTypes = {
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            genre: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired,
+            }).isRequired,
+            image: PropTypes.shape({
+                imageUrl: PropTypes.string.isRequired,
+            }).isRequired,
+        })
+    ).isRequired,
+    setSelectedMovie: PropTypes.func.isRequired,
 };
 export default MainView;
