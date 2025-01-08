@@ -110,7 +110,7 @@ export const MainView = () => {
         );
     }
 
-    if (movies.length === 0) { // If no movies a re available
+    if (movies.length === 0) { // If no movies are available
         return (
             <Row className="mainView_empty">
                 <h3>The list is empty!</h3>

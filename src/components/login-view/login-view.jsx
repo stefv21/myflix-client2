@@ -19,7 +19,7 @@ export const LoginView = ({ onLoggedIn }) => {
             password: password,
         };
 
-        fetch("https://dojo-db-e5c2cf5a1b56.herokuapp.com/login", {
+        fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

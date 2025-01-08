@@ -50,7 +50,7 @@ export const SignupView = ({ onSignedUp }) => {
             ...(birthday && { birthday: birthday }),
                 };
 
-        fetch("https://dojo-db-e5c2cf5a1b56.herokuapp.com/users", {
+        fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
