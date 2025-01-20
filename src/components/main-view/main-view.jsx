@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-
 import PropTypes from "prop-types"; 
+import { Col, Button, Row, Container } from "react-bootstrap";
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+
 
 import "./main-view.scss";
 
@@ -28,7 +26,7 @@ export const MainView = () => {
         if (!token) return; // Don't fetch if there is no token
         fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/movies", {
             headers: {
-                Authorization: `Bearer ${token}`, // Send token for authentication
+                Authorization: `Bearer ${token}`, 
             },
         })
             .then((response) => response.json())
@@ -61,7 +59,7 @@ export const MainView = () => {
     }, [token]); // Only fetch when token changes
 
     const handleMovieClick = (newSelectedMovie) => {
-        setSelectedMovie(newSelectedMovie); // Update the selected movie when a similar movie is clicked
+        setSelectedMovie(newSelectedMovie); 
     };
 
     const handleLogin = (user, token) => { // Login
@@ -118,28 +116,29 @@ export const MainView = () => {
         );
     }
 
-    return ( // Default view:showing all movie cards
-        <div className="movieCards_main">
-            <Row className="d-flex justify-content-end align-items-start">
-                <Col className="auto logout-col">
-                    <Button className="logout-btn" variant="primary" onClick={handleLogout}>Logout</Button>
-                </Col>
-            </Row>
-
-            <Row className="w-100 gx-4 gy-4">
-                {movies.map((movie) => (
-                    <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
-                        <MovieCard
-                            movie={movie}
-                            onMovieClick={() => setSelectedMovie(movie)}
-                        />
-                    </Col>
-                ))}
-            </Row>
-        </div>
-
-    );
-};
+    return (
+        <Container className="movieCards_main">
+          <Row className="d-flex justify-content-end align-items-start mb-4">
+            <Col className="auto logout-col">
+              <Button className="logout-btn" variant="primary" onClick={handleLogout}>
+                Logout
+              </Button>
+            </Col>
+          </Row>
+    
+          <Row className="w-100 gx-4 gy-4">
+            {movies.map((movie) => (
+              <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                <MovieCard
+                  movie={movie}
+                  onMovieClick={() => setSelectedMovie(movie)}
+                />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      );
+    };
 
 MainView.propTypes = {
     movies: PropTypes.arrayOf(
