@@ -33,26 +33,21 @@ export const MainView = () => {
             .then((data) => {
                 const moviesFromApi = data.map((movie) => ({
                     id: movie._id,
-                    title: movie.title,
-                    description: movie.description,
+                    title: movie.Title,
+                    description: movie.Description,
                     genre: {
-                        name: movie.genre.name,
-                        description: movie.genre.description
+                        name: movie.Genre.Name,
+                        description: movie.Genre.Description
                     },
-                    image: {
-                        imageUrl: movie.image?.imageUrl,
-                        imageAttribution: movie.image?.imageAttribution
-                    },
+                    image: movie.ImagePath,
                     featured: true,
                     director: {
-                        name: movie.director.name,
-                        bio: movie.director.bio,
-                        birthYear: movie.director.birthYear,
-                        deathYear: movie.director.deathYear,
-                    },
-                    actors: movie.actors,  // Include the actors here
-                releaseYear: movie.releaseYear,
-            }));
+                        name: movie.Director.Name,
+                        bio: movie.Director.Bio,
+                        birthYear: movie.Director.Birth,
+                        deathYear: movie.Director.Death,
+                    }   
+}));
                 setMovies(moviesFromApi);
             })
             .catch((error) => alert("Error fetching movies: " + error));

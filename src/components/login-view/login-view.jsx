@@ -15,8 +15,8 @@ export const LoginView = ({ onLoggedIn }) => {
         event.preventDefault();
 
         const data = {
-            username: username,
-            password: password,
+            Username: username,
+            Password: password,
         };
 
         fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/login", {
