@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import { Col, Row, Container } from "react-bootstrap";
 
 import { NavigationBar } from "../navigation-bar/navigation-bar";
@@ -7,6 +7,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { ProfileView } from "../profile-view/profile-view"; // Ensure ProfileView is imported
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import "./main-view.scss";
@@ -14,7 +15,7 @@ import "./main-view.scss";
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  
+
   const [movies, setMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
@@ -23,7 +24,7 @@ export const MainView = () => {
     if (!token) return; // Don't fetch if there is no token
     fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/movies", {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -63,9 +64,13 @@ export const MainView = () => {
     localStorage.clear();
   };
 
+  const handleUpdateFavorites = (updatedFavorites) => {
+    setUser({ ...user, FavoriteMovies: updatedFavorites });
+    localStorage.setItem("user", JSON.stringify({ ...user, FavoriteMovies: updatedFavorites }));
+  };
+
   return (
     <Router>
-      {/* Pass user and onLoggedOut to NavigationBar */}
       <NavigationBar user={user} onLoggedOut={handleLogout} />
 
       <Routes>
@@ -89,11 +94,31 @@ export const MainView = () => {
                 <Row className="w-100 gx-4 gy-4">
                   {movies.map((movie) => (
                     <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
-                      <MovieCard movie={movie} />
+                      <MovieCard
+                        movie={movie}
+                        user={user}
+                        token={token}
+                        onUpdateFavorites={handleUpdateFavorites}
+                      />
                     </Col>
                   ))}
                 </Row>
               </Container>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            user ? (
+              <ProfileView
+                user={user}
+                token={token}
+                onLoggedOut={handleLogout}
+                movies={movies}
+              />
             ) : (
               <Navigate to="/login" />
             )
