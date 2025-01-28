@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-
 import "./movie-view.scss";
+import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -74,7 +75,7 @@ export const MovieView = ({ movie, allMovies, onBackClick, onMovieClick }) => {
                         </Col>
                     </Row>
                     <div className="mt-auto">
-                        <Button onClick={onBackClick} className="back-btn">Back</Button>
+                    <Button onClick={() => navigate(-1)} className="back-btn">Back</Button>
                     </div>
                 </Col>
             </Row>
@@ -94,7 +95,7 @@ export const MovieView = ({ movie, allMovies, onBackClick, onMovieClick }) => {
                                 <Card.Body className="d-flex flex-column">
                                     <Card.Title>{similarMovie.title}</Card.Title>
                                     <Card.Text>Directed by {similarMovie.director.name}</Card.Text>
-                                    <Button onClick={() => onMovieClick(similarMovie)} >View Details</Button>
+                                    <Link to={`/movies/${similarMovie.id}`} className="btn btn-primary">View Details</Link>
                                 </Card.Body>
                             </Card>
                         </Col>
