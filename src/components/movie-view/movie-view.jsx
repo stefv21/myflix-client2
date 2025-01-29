@@ -1,13 +1,18 @@
 import PropTypes from "prop-types";
 import "./movie-view.scss";
-import { useParams, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom"
+
+// Import core routing logic from react-router
+import { Routes, Route, useParams } from "react-router";
+
+// Import web-based navigation from react-router-dom
+import { useNavigate, Link } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Figure from "react-bootstrap/Figure";
+
 
 import { MovieCard } from "../movie-card/movie-card";
 

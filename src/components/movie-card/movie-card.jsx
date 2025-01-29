@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
+// Import routing logic from react-router
+import { Routes, Route, Navigate } from "react-router";
+
+// Import browser-specific features from react-router-dom
+import { Link, useNavigate } from "react-router-dom";
+
+
 import "./movie-card.scss";
 
 export const MovieCard = ({ movie, user, token, onUpdateFavorites }) => {

@@ -8,7 +8,8 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view"; // Ensure ProfileView is imported
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router"; 
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "./main-view.scss";
 
