@@ -15,15 +15,15 @@ export const LoginView = ({ onLoggedIn }) => {
         event.preventDefault();
 
         const data = {
-            username: username,
-            password: password,
+            Username: username,
+            Password: password,
         };
 
-        fetch("https://dojo-db-e5c2cf5a1b56.herokuapp.com/login", {
+        fetch("https://aqueous-mountain-08725-cb2ff83949fb.herokuapp.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
-            credentials: "include",
+            
         })
             .then((response) => {
                 if (!response.ok) {
