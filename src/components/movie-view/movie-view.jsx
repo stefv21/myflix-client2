@@ -1,11 +1,7 @@
 import PropTypes from "prop-types";
 import "./movie-view.scss";
 
-// Import core routing logic from react-router
-import { Routes, Route, useParams } from "react-router";
-
-// Import web-based navigation from react-router-dom
-import { useNavigate, Link } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate, Link } from "react-router";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

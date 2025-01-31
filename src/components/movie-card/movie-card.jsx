@@ -2,12 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 
-// Import routing logic from react-router
-import { Routes, Route, Navigate } from "react-router";
-
-// Import browser-specific features from react-router-dom
-import { Link, useNavigate } from "react-router-dom";
-
+import { Routes, Route, Navigate, Link, useNavigate } from "react-router";
 
 import "./movie-card.scss";
 
