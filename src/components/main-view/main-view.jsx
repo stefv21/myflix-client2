@@ -74,16 +74,16 @@ export const MainView = () => {
     <Router>
       <NavigationBar user={user} onLoggedOut={handleLogout} />
 
-      <Routes>
-        <Route
+<Routes>
+      <Route
           path="/login"
           element={
-            <LoginView
-              onLoggedIn={(user, token) => {
-                setUser(user);
-                setToken(token);
-              }}
-            />
+            user ? <Navigate to="/" /> : <LoginView
+            onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }}
+          />
           }
         />
         <Route path="/signup" element={<SignupView />} />
@@ -129,7 +129,7 @@ export const MainView = () => {
       </Routes>
     </Router>
   );
-};
+
 
 MainView.propTypes = {
   movies: PropTypes.arrayOf(
@@ -145,5 +145,5 @@ MainView.propTypes = {
     })
   ).isRequired,
 };
-
+}
 export default MainView;

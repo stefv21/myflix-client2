@@ -8,7 +8,7 @@ import "./movie-card.scss";
 
 export const MovieCard = ({ movie, user, token, onUpdateFavorites }) => {
   // Check if the movie is already in the user's favorites
-  const isFavorite = user.FavoriteMovies.includes(movie.id);
+  const isFavorite = user.favoriteMovies.includes(movie.id);
 
   const handleFavoriteToggle = () => {
     const method = isFavorite ? "DELETE" : "POST";
