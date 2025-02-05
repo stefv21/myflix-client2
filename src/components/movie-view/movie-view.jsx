@@ -12,24 +12,22 @@ import Figure from "react-bootstrap/Figure";
 
 import { MovieCard } from "../movie-card/movie-card";
 
-export const MovieView = ({ movie, allMovies, onBackClick, onMovieClick }) => {
+export const MovieView = ({ allMovies, onBackClick, onMovieClick }) => {
+    const { movieId } = useParams();
+    const movie = allMovies.find((movie) => movie._id === movieId);
 
-    {/* Filter movies by same genre, excl. current movie, limit similar movies to 3 */ }
-    const similarMovies = allMovies
-        .filter((m) => m.genre.name === movie.genre.name && m.id !== movie.id)
-        .slice(0, 3);
     return (
         <Col className="movieView">
 
             <Row className="bg mt-5 mb-5 p-3  justify-content-between" style={{ height: "100%" }}>
                 <div className="title mb-3">
-                    <h2>{movie.title}</h2>
+                    <h2>{movie.Title}</h2>
                 </div>
                 <Col md={4} className="d-flex flex-column justify-content-betwen align-items-center">
                     <Figure className="w-100">
                         <Figure.Image
                             width="100%"
-                            alt={movie.title}
+                            alt={movie.Title}
                             src={movie.image.imageUrl}
                             className="img-fluid rounded"
                         />
@@ -90,11 +88,11 @@ export const MovieView = ({ movie, allMovies, onBackClick, onMovieClick }) => {
                                     <Card.Img
                                         variant="top"
                                         src={similarMovie.image.imageUrl}
-                                        alt={similarMovie.title}
+                                        alt={similarMovie.Title}
                                     />
                                 </div>
                                 <Card.Body className="d-flex flex-column">
-                                    <Card.Title>{similarMovie.title}</Card.Title>
+                                    <Card.Title>{similarMovie.Title}</Card.Title>
                                     <Card.Text>Directed by {similarMovie.director.name}</Card.Text>
                                     <Link to={`/movies/${similarMovie.id}`} className="btn btn-primary">View Details</Link>
                                 </Card.Body>
