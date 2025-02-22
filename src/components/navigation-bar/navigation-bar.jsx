@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { Routes, Route, Navigate, BrowserRouter as Router } from "react-router-dom";
 
 import "./navigation-bar.scss"; // Optional for custom styles
