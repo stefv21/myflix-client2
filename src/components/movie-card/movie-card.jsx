@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 
-import { Routes, Route, Navigate, Link, useNavigate } from "react-router";
+import { Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
 
 import "./movie-card.scss";
 
